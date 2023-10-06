@@ -51,6 +51,8 @@ dependencies {
     implementation("commons-fileupload:commons-fileupload:1.2")
     // https://mvnrepository.com/artifact/javax.servlet/servlet-api
     compileOnly("javax.servlet:servlet-api:2.5")
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation("org.postgresql:postgresql:42.6.0")
 
 
 }

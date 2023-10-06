@@ -35,7 +35,7 @@ public class GoogleDriveService {
         /**
          * Application name.
          */
-        private val APPLICATION_NAME = "ytclone";
+        private const val APPLICATION_NAME = "ytclone";
 
         /**
          * Global instance of the JSON factory.
@@ -45,15 +45,15 @@ public class GoogleDriveService {
         /**
          * Directory to store authorization tokens for this application.
          */
-        private val TOKENS_DIRECTORY_PATH = "tokens";
+        private const val TOKENS_DIRECTORY_PATH = "tokens";
 
         /**
          * Global instance of the scopes required by this quickstart.
          * If modifying these scopes, delete your previously saved tokens/ folder.
          */
-        private val SCOPES: MutableList<String> = Collections.singletonList(DriveScopes.DRIVE_FILE);
+        private val SCOPES = Collections.singletonList(DriveScopes.DRIVE_FILE);
 
-        private val CREDENTIALS_FILE_PATH = "./credentials.json";
+        private const val CREDENTIALS_FILE_PATH = "./credentials.json";
 
         /**
          * Creates an authorized Credential object.
@@ -66,7 +66,7 @@ public class GoogleDriveService {
             // Load client secrets.
             val input: InputStream? = GoogleDriveService::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH);
 
-            input ?: throw FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            input ?: throw FileNotFoundException("Resource not found: $CREDENTIALS_FILE_PATH");
 
             val clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(input));

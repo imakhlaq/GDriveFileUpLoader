@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.UUID
 
 @Entity
+@Table(name = "user_details")
 data class User(
 
     @Column(unique = true)
@@ -17,7 +18,6 @@ data class User(
     private val password: String,
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "USER")
     val role: Roles,
 
     @Id
