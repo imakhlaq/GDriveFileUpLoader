@@ -6,41 +6,35 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
-
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import com.google.api.client.json.JsonFactory;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 /* class to demonstrate use of Drive files list API */
 @Component
-public class GoogleDriveService {
+class GoogleDriveServiceKT {
 
     companion object {
         /**
          * Application name.
          */
-        private const val APPLICATION_NAME = "ytclone";
+        private const val APPLICATION_NAME = "gdrive";
 
         /**
          * Global instance of the JSON factory.
          */
-        private val JSON_FACTORY = GsonFactory.getDefaultInstance();
+        private val JSON_FACTORY: JsonFactory = GsonFactory.getDefaultInstance();
 
         /**
          * Directory to store authorization tokens for this application.
@@ -53,7 +47,7 @@ public class GoogleDriveService {
          */
         private val SCOPES = Collections.singletonList(DriveScopes.DRIVE_FILE);
 
-        private const val CREDENTIALS_FILE_PATH = "./credentials.json";
+        private const val CREDENTIALS_FILE_PATH = "/credentials.json";
 
         /**
          * Creates an authorized Credential object.
@@ -62,36 +56,53 @@ public class GoogleDriveService {
          * @return An authorized Credential object.
          * @throws IOException If the credentials.json file cannot be found.
          */
-        private fun getCredentials(HTTP_TRANSPORT: NetHttpTransport): Credential {
-            // Load client secrets.
-            val input: InputStream? = GoogleDriveService::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        private fun getCredentials(HTTP_TRANSPORT: NetHttpTransport): Credential? {
 
-            input ?: throw FileNotFoundException("Resource not found: $CREDENTIALS_FILE_PATH");
+            try {
+                // Load client secrets.
+                val input: InputStream? = GoogleDriveServiceKT::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH);
 
-            val clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(input));
+                input ?: throw FileNotFoundException("Resource not found: $CREDENTIALS_FILE_PATH");
 
-            // Build flow and trigger user authorization request.
-            val flow = GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES
-            )
-                .setDataStoreFactory(FileDataStoreFactory(java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-            val receiver = LocalServerReceiver.Builder().setPort(8888).build();
-            val credential = AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-            //returns an authorized Credential object.
-            return credential;
+                val clientSecrets =
+                    GoogleClientSecrets.load(JSON_FACTORY, InputStreamReader(input));
+
+                // Build flow and trigger user authorization request.
+                val flow = GoogleAuthorizationCodeFlow.Builder(
+                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES
+                )
+                    .setDataStoreFactory(FileDataStoreFactory(java.io.File(TOKENS_DIRECTORY_PATH)))
+                    .setAccessType("offline")
+                    .build();
+                val receiver = LocalServerReceiver.Builder().setPort(8888).build();
+                val credential = AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+                //returns an authorized Credential object.
+                return credential;
+            } catch (e: Exception) {
+                println(e)
+            }
+            return null;
+
         }
     }
 
-    fun getInstance(): Drive {
-        // Build a new authorized API client service.
-        val HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        val service = Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-            .setApplicationName(APPLICATION_NAME)
-            .build();
-        return service;
+    fun getInstance(): Drive? {
+
+        try {
+            // Build a new authorized API client service.
+            val HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            val service = Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+            return service;
+        } catch (e: GeneralSecurityException) {
+            println(e.message)
+        } catch (e: GeneralSecurityException) {
+            println(e.message)
+        }
+
+        return null;
+
     }
 
 //Code needs to be implemented for the uploding a file to drive

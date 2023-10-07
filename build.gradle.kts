@@ -48,13 +48,9 @@ dependencies {
     implementation("com.google.oauth-client:google-oauth-client-jetty:1.34.1")
     implementation("com.google.apis:google-api-services-drive:v3-rev20220815-2.0.0")
     // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
-    implementation("commons-fileupload:commons-fileupload:1.2")
-    // https://mvnrepository.com/artifact/javax.servlet/servlet-api
-    compileOnly("javax.servlet:servlet-api:2.5")
+    implementation("org.apache.commons:commons-fileupload2-jakarta:2.0.0-M1")
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation("org.postgresql:postgresql:42.6.0")
-
-
 }
 
 tasks.withType<KotlinCompile> {
