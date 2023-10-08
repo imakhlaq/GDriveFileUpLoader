@@ -32,7 +32,6 @@ class JwtAuthFilter @Autowired constructor(val jwtService: JwtService, val userD
             filterChain.doFilter(request, response);
             return;
         }
-
         //extract the token
 
         val jwtToken = token.split(" ")[1];
@@ -51,7 +50,5 @@ class JwtAuthFilter @Autowired constructor(val jwtService: JwtService, val userD
         }
 
         filterChain.doFilter(request, response)
-
-
     }
 }

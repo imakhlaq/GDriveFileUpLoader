@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 /* class to demonstrate use of Drive files list API */
 @Component
-class GoogleDriveServiceKT {
+class GDriveUtil {
 
     companion object {
         /**
@@ -60,7 +60,7 @@ class GoogleDriveServiceKT {
 
             try {
                 // Load client secrets.
-                val input: InputStream? = GoogleDriveServiceKT::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH);
+                val input: InputStream? = GDriveUtil::class.java.getResourceAsStream(CREDENTIALS_FILE_PATH);
 
                 input ?: throw FileNotFoundException("Resource not found: $CREDENTIALS_FILE_PATH");
 
@@ -82,7 +82,6 @@ class GoogleDriveServiceKT {
                 println(e)
             }
             return null;
-
         }
     }
 
@@ -104,12 +103,4 @@ class GoogleDriveServiceKT {
         return null;
 
     }
-
-//Code needs to be implemented for the uploding a file to drive
-//uploading functions are as follows as
-//Using this code snippet you can do all drive functionality
-//getfiles()
-//uploadFile()
-
-
 }

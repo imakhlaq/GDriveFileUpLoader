@@ -21,7 +21,6 @@ class AppConfig @Autowired constructor(val userRepo: UserRepo) {
         return UserDetailsService { username ->
             userRepo.findAllByUsernameEquals(username).orElseThrow { UsernameNotFoundException("UserNot Found") }
         }
-
     }
 
     @Bean
@@ -40,6 +39,5 @@ class AppConfig @Autowired constructor(val userRepo: UserRepo) {
     @Bean
     fun authManager(config: AuthenticationConfiguration): AuthenticationManager {
         return config.authenticationManager
-
     }
 }
