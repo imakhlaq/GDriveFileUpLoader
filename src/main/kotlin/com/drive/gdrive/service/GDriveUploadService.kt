@@ -1,7 +1,9 @@
-package com.drive.gdrive
+package com.drive.gdrive.service
 
 import com.drive.auth.model.User
 import com.drive.exception.customexceptions.FileNotFoundException
+import com.drive.gdrive.GDriveUtil
+import com.drive.gdrive.repo.StoredFileRepo
 import com.drive.model.StoredFiles
 import com.google.api.client.http.InputStreamContent
 import jakarta.servlet.http.HttpServletRequest
@@ -9,13 +11,11 @@ import jakarta.transaction.Transactional
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 
 @Service
-class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil, val storedFileRepo: StoredFileRepo) {
+class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val storedFileRepo: StoredFileRepo) {
 
 
     @Transactional
