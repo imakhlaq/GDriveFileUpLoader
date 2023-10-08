@@ -18,6 +18,8 @@ class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil) {
 
     fun uploadToGoogleDrive(request: HttpServletRequest): String {
 
+        //TODO implemet store in db
+
         return upload(request);
     }
 

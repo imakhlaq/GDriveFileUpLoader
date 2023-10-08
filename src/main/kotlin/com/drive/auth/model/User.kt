@@ -1,5 +1,6 @@
 package com.drive.auth.model
 
+import com.drive.model.StoredFiles
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -12,6 +13,7 @@ data class User(
 
     @Column(unique = true)
     private val username: String,
+
     @Column(unique = true)
     val email: String,
 
@@ -19,6 +21,10 @@ data class User(
 
     @Enumerated(EnumType.STRING)
     val role: Roles,
+
+    @OneToMany(cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
+    @Column(nullable = true)
+    val files: List<StoredFiles>? = null,
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
