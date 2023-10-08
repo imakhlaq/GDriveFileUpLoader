@@ -22,12 +22,13 @@ data class User(
     @Enumerated(EnumType.STRING)
     val role: Roles,
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
     @Column(nullable = true)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
     val files: List<StoredFiles>? = null,
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "user_id")
     val id: UUID? = null,
 
     ) : UserDetails {

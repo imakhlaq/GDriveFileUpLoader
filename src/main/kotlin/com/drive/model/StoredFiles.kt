@@ -13,9 +13,8 @@ data class StoredFiles(
     val contentType: String?,
     val timestamp: DateTime?,
 
-    @Column(nullable = true)
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id", nullable = true)
     val user: User? = null,
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
