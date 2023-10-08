@@ -53,6 +53,7 @@ class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil) {
                     val file =
                         gDriveUtil.getInstance()?.files()?.create(fileMetadata, mediaContent)?.executeAsInputStream()
                 }
+                stream.close();
             }
         } catch (e: GoogleJsonResponseException) {
             return "Unable to upload file: ${e.message}"
