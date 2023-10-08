@@ -1,29 +1,27 @@
 package com.drive.gdrive
 
+import com.drive.auth.model.User
 import com.drive.exception.customexceptions.FileNotFoundException
-import com.google.api.client.googleapis.json.GoogleJsonResponseException
+import com.drive.model.StoredFiles
 import com.google.api.client.http.InputStreamContent
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.transaction.Transactional
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload
-import org.apache.tomcat.util.http.fileupload.FileUploadException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Service
-import java.io.IOException
-import java.lang.Exception
+import java.time.LocalDateTime
 
 
 @Service
-class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil) {
+class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil, val storedFileRepo: StoredFileRepo) {
 
-    fun uploadToGoogleDrive(request: HttpServletRequest): String {
+
+    @Transactional
+    fun uploadToGoogleDrive(request: HttpServletRequest, userDetails: User): StoredFiles? {
 
         //TODO implemet store in db
-
-        return upload(request);
-    }
-
-    private fun upload(request: HttpServletRequest): String {
 
         val folderId = "1joKnmQnEY7SudQhX_bNywe5f363SASev";
 
@@ -31,7 +29,7 @@ class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil) {
 
         if (!isMultipart) {
             // Inform user about invalid request
-            return "Not a multipart request."
+            throw FileNotFoundException(HttpStatus.BAD_REQUEST, "File is not Present")
         }
 
         // Create a new file upload handler
@@ -58,15 +56,30 @@ class GDriveService @Autowired constructor(val gDriveUtil: GDriveUtil) {
                     stream
                 );
 
-                val file =
-                    gDriveUtil.getInstance()?.files()?.create(fileMetadata, mediaContent)?.executeAsInputStream()
+                val fileRes =
+                    gDriveUtil.getInstance()?.files()?.create(fileMetadata, mediaContent)?.execute()
                 stream.close()
+
+                //TODO implemet store in db
+
+                val file = StoredFiles(
+                    fileRes?.name,
+                    fileRes?.id,
+                    item.contentType,
+                    fileRes?.createdTime,
+                    userDetails
+                )
+
+                val fileInDB = storedFileRepo.save(file);
+                return fileInDB;
+
             } else {
                 stream.close();
-                throw FileNotFoundException(HttpStatus.BAD_GATEWAY, "File is not Present")
+                throw FileNotFoundException(HttpStatus.BAD_REQUEST, "File is not Present")
             }
         }
-        return "Success"
-
+        return null;
     }
+
+
 }

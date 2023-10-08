@@ -22,7 +22,7 @@ data class User(
     @Enumerated(EnumType.STRING)
     val role: Roles,
 
-    @OneToMany(cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
     @Column(nullable = true)
     val files: List<StoredFiles>? = null,
 
