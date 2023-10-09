@@ -5,7 +5,7 @@ export default function Page() {
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <section className="container relative mx-auto my-96 flex max-w-sm md:max-w-sm lg:max-w-md flex-col px-6 justify-center gap-16 bg-[#999799] py-10 rounded-md text-gray-950">
+    <section className="container relative mx-auto my-96 flex max-w-sm md:max-w-sm lg:max-w-md flex-col px-6 justify-center gap-16 bg-[#939196] py-10 rounded-md text-gray-950">
       <h2 className="font-semibold text-3xl">Login</h2>
       <form className="flex flex-col justify-center gap-4 text-lg font-semibold">
         <div className="flex flex-col">
@@ -29,7 +29,7 @@ export default function Page() {
           />
         </div>
         <button
-          className="rounded-md bg-slate-600 mt-4 py-2 w-36 mx-auto shadow-md hover:shadow-xl hover:bg-white"
+          className="rounded-md bg-[#CFCFCF] mt-4 py-2 w-36 mx-auto shadow-md hover:shadow-xl hover:bg-white"
           type="submit"
         >
           Submit
