@@ -1,6 +1,6 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { service } from "@/app/utils/service";
+import { service } from "@/utils/service";
 
 type Props = {};
 export default function Upload({}: Props) {
