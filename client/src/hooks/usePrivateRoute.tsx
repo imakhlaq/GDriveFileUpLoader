@@ -1,5 +1,5 @@
 "use client";
-import { getAuth } from "@/utils/isAuthenticated";
+import { getAuth } from "@/utils/isAuth";
 import { useRouter } from "next/navigation";
 
 export default function usePrivateRoute() {
