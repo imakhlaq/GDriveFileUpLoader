@@ -12,6 +12,7 @@ export default function Page() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FormValues>();
   const authFun = useAuth();
@@ -23,9 +24,12 @@ export default function Page() {
     })
       .then((res) => localStorage.setItem("gdriveToken", JSON.stringify(res)))
       .catch((e) => {
-        if (e.message.contain("username")) errors.username;
-        if (e.message.contain("email")) errors.email;
-        if (e.message.contain("password")) errors.password;
+        if (e.message.contain("username"))
+          setError("username", { message: "Username is taken" });
+        if (e.message.contain("email"))
+          setError("email", { message: "Email is registered" });
+        if (e.message.contain("password"))
+          setError("username", { message: "Password is weak" });
       });
   });
 
@@ -36,6 +40,7 @@ export default function Page() {
         className="flex flex-col justify-center gap-4 text-lg font-semibold"
         onSubmit={onSubmit}
       >
+        {errors.username && <p>{errors.username.message}</p>}
         <div className="flex flex-col">
           <label htmlFor="username" className="mb-2 text-xl">
             Username
@@ -47,6 +52,7 @@ export default function Page() {
             className="rounded-sm outline-none py-0.5 px-1 shadow-md focus:shadow-xl "
           />
         </div>
+        {errors.password && <p>{errors.password.message}</p>}
         <div className="flex flex-col">
           <label htmlFor="email" className="mb-2 text-xl">
             Email
@@ -58,6 +64,7 @@ export default function Page() {
             className="rounded-sm outline-none py-0.5 px-1 shadow-md focus:shadow-xl "
           />
         </div>
+        {errors.password && <p>{errors.password.message}</p>}
         <div className="flex flex-col">
           <label htmlFor="password" className="mb-2 text-xl">
             Password
