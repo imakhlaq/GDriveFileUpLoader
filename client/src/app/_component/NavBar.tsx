@@ -1,9 +1,14 @@
 "use client";
 import Link from "next/link";
 import { getAuth } from "@/utils/isAuth";
+import { useEffect, useRef } from "react";
 
 const NavBar = () => {
-  const isAuth = getAuth();
+  let isAuth = useRef<string | null>(null);
+
+  useEffect(() => {
+    isAuth.current = getAuth();
+  }, []);
 
   return (
     <header>
@@ -20,6 +25,13 @@ const NavBar = () => {
                 </li>
                 <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
                   <Link href="/signup">Signup</Link>
+                </li>
+              </>
+            )}
+            {isAuth && (
+              <>
+                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
+                  <Link href="/upload">Upload</Link>
                 </li>
               </>
             )}

@@ -9,12 +9,12 @@ type SignupData = LoginData & {
 };
 
 type Props = {
-  type: "login" | "signin";
+  type: "login" | "signup";
   data: LoginData | SignupData;
 };
 
 export function useAuth() {
   return async function ({ type, data }: Props) {
-    await service.post<AuthRes>(`/${type}`, data);
+    await service.post<AuthRes>(`/auth/${type}`, data);
   };
 }

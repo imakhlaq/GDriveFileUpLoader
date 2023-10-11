@@ -1,14 +1,8 @@
-"use client";
-import Upload from "@/app/_component/Upload";
-import usePrivateRoute from "@/hooks/usePrivateRoute";
-import { useEffect } from "react";
+import { service } from "@/utils/service";
 
-export default function Home() {
-  const protectedFn = usePrivateRoute();
+type Props = {};
 
-  useEffect(() => {
-    protectedFn();
-  }, []);
-
-  return <Upload />;
+export default function Page({}: Props) {
+  //fetch data
+  return <div>$</div>;
 }
