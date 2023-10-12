@@ -29,7 +29,7 @@ export default function Upload({}: Props) {
   return (
     <>
       <form
-        className="flex justify-center items-center h-screen -mt-16"
+        className="flex justify-center items-center  -mt-24  h-screen flex-col gap-8"
         onSubmit={submitHandler}
       >
         <input
@@ -39,7 +39,10 @@ export default function Upload({}: Props) {
           name="file"
           accept="image/jpeg, video/mp4"
         />
-        <button className="" type="submit">
+        <button
+          className="bg-[#CFCFCF] px-8 py-2 rounded-3xl font-semibold text-xl text-gray-950"
+          type="submit"
+        >
           Upload
         </button>
       </form>

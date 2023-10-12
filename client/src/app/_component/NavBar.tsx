@@ -20,22 +20,22 @@ const NavBar = () => {
           <div className="flex justify-center items-center gap-8 text-lg font-medium px-4 md:px-6 lg:px-20">
             {!isAuth && (
               <>
-                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
+                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/login">Login</Link>
                 </li>
-                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
+                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/signup">Signup</Link>
                 </li>
               </>
             )}
             {isAuth && (
               <>
-                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
+                <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/upload">Upload</Link>
                 </li>
               </>
             )}
-            <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-md">
+            <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
               <Link href="/about">About</Link>
             </li>
           </div>

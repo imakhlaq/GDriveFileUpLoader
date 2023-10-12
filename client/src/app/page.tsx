@@ -1,8 +1,8 @@
-import { service } from "@/utils/service";
+import Table from "@/app/_component/Table";
 
 type Props = {};
 
 export default function Page({}: Props) {
   //fetch data
-  return <div>$</div>;
+  return <Table />;
 }

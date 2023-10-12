@@ -19,7 +19,7 @@ export default function Page() {
 
   const onSubmit = handleSubmit((data) => {
     authFun({
-      type: "signin",
+      type: "signup",
       data,
     })
       .then((res) => localStorage.setItem("gdriveToken", JSON.stringify(res)))
