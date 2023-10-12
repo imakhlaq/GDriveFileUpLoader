@@ -19,7 +19,10 @@ class AuthController @Autowired constructor(private val authService: AuthService
     fun signup(@RequestBody userDTO: NewUserDTO): ResponseEntity<AuthRes> {
         println("IN signup")
 
-        return ResponseEntity.ok(this.authService.signup(userDTO));
+        val data = authService.signup(userDTO);
+        println(data)
+
+        return ResponseEntity.ok(data);
     }
 
     @PostMapping("/login")

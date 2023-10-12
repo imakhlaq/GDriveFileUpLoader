@@ -15,6 +15,6 @@ type Props = {
 
 export function useAuth() {
   return async function ({ type, data }: Props) {
-    await service.post<AuthRes>(`/auth/${type}`, data);
+    return await service.post<AuthRes>(`/auth/${type}`, data);
   };
 }

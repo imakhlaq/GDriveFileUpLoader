@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import kotlin.math.log
 
 @Service
 class AuthService @Autowired constructor(
@@ -28,10 +29,10 @@ class AuthService @Autowired constructor(
 
     fun signup(userDTO: NewUserDTO): AuthRes {
         val isUsernameExit = userRepo.findAllByUsernameEquals(userDTO.username)
-        if (!isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Username already exits")
+        if (isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Username already exits")
 
         val isEmailExit = userRepo.findAllByEmailEquals(userDTO.email)
-        if (!isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Email already exits")
+        if (isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Email already exits")
 
         //encrypt
         val encryptPass = passwordEncoder.encode(userDTO.password)
@@ -39,6 +40,7 @@ class AuthService @Autowired constructor(
         val user = User(username = userDTO.username, email = userDTO.email, password = encryptPass, role = Roles.ADMIN)
 
         val dbUser = userRepo.save(user);
+        println(dbUser)
 
         val jwtToken = jwtService.generateToken(dbUser);
 

@@ -22,13 +22,19 @@ export default function Page() {
       type: "signup",
       data,
     })
-      .then((res) => localStorage.setItem("gdriveToken", JSON.stringify(res)))
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("gdriveToken", JSON.stringify(res.data));
+      })
       .catch((e) => {
-        if (e.message.contain("username"))
+        console.log(e);
+        const message = e.response.data.message;
+        if (typeof message !== "string") return;
+        if (message.includes("Username"))
           setError("username", { message: "Username is taken" });
-        if (e.message.contain("email"))
+        if (message.includes("Email"))
           setError("email", { message: "Email is registered" });
-        if (e.message.contain("password"))
+        if (message.includes("Password"))
           setError("username", { message: "Password is weak" });
       });
   });
@@ -40,7 +46,9 @@ export default function Page() {
         className="flex flex-col justify-center gap-4 text-lg font-semibold"
         onSubmit={onSubmit}
       >
-        {errors.username && <p>{errors.username.message}</p>}
+        {errors.username && (
+          <p className="text-red-800">{errors.username.message}</p>
+        )}
         <div className="flex flex-col">
           <label htmlFor="username" className="mb-2 text-xl">
             Username
@@ -52,7 +60,9 @@ export default function Page() {
             className="rounded-sm outline-none py-0.5 px-1 shadow-md focus:shadow-xl "
           />
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-red-800">{errors.password.message}</p>
+        )}
         <div className="flex flex-col">
           <label htmlFor="email" className="mb-2 text-xl">
             Email
@@ -64,7 +74,9 @@ export default function Page() {
             className="rounded-sm outline-none py-0.5 px-1 shadow-md focus:shadow-xl "
           />
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-red-800">{errors.password.message}</p>
+        )}
         <div className="flex flex-col">
           <label htmlFor="password" className="mb-2 text-xl">
             Password

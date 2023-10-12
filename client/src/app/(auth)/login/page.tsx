@@ -22,7 +22,7 @@ export default function Page() {
   const onSubmit = handleSubmit((data) => {
     authFun({ type: "login", data })
       .then((authRes) =>
-        localStorage.setItem("gdriveToken", JSON.stringify(authRes)),
+        localStorage.setItem("gdriveToken", JSON.stringify(authRes.data)),
       )
       .catch((e) => setError(true));
   });

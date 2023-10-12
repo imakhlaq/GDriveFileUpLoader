@@ -15,7 +15,7 @@ import java.io.InputStream
 @Service
 class MyFilesService @Autowired constructor(val storedFileRepo: StoredFileRepo, val gDriveUtil: GDriveUtil) {
 
-    fun getMyfiles(userDetails: User): List<StoredFiles> {
+    fun getMyFiles(userDetails: User): List<StoredFiles>? {
 
         return storedFileRepo.findAllByUserEquals(userDetails)
             .orElseThrow { FileNotFoundException(HttpStatus.BAD_REQUEST, "NO file found") };

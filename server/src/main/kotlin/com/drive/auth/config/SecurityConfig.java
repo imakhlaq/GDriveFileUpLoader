@@ -33,7 +33,7 @@ class SecurityConfig {
                                 new CorsConfiguration().applyPermitDefaultValues()
                         ))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**")
+                        .requestMatchers("/api/auth/**")
                         //these are whitelist paths
                         .permitAll().anyRequest()
                         .authenticated())//and rest are private need auth

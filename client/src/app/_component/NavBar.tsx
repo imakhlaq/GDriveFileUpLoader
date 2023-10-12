@@ -8,6 +8,7 @@ const NavBar = () => {
 
   useEffect(() => {
     isAuth.current = getAuth();
+    console.log(isAuth);
   }, []);
 
   return (
@@ -18,7 +19,7 @@ const NavBar = () => {
             <Link href="/">StoreIT</Link>
           </li>
           <div className="flex justify-center items-center gap-8 text-lg font-medium px-4 md:px-6 lg:px-20">
-            {!isAuth && (
+            {!isAuth.current && (
               <>
                 <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/login">Login</Link>
@@ -28,7 +29,7 @@ const NavBar = () => {
                 </li>
               </>
             )}
-            {isAuth && (
+            {isAuth.current && (
               <>
                 <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/upload">Upload</Link>

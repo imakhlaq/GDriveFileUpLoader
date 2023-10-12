@@ -1,8 +1,18 @@
-import { fileData } from "@/utils/fileInfo";
+"use client";
 import Column from "@/app/_component/Column";
+import usePrivateRoute from "@/hooks/usePrivateRoute";
+import { useEffect } from "react";
 
-type Props = {};
-const Table = ({}: Props) => {
+type Props = {
+  files: MyFile[];
+};
+const Table = ({ files }: Props) => {
+  const protectedFun = usePrivateRoute();
+
+  useEffect(() => {
+    protectedFun();
+  }, []);
+
   return (
     <section>
       <div className="grid grid-cols-3 w-screen place-items-center mt-16 gap-1">
@@ -11,7 +21,7 @@ const Table = ({}: Props) => {
           <p className="text-xl font-semibold">Type</p>
           <p className="text-xl font-semibold">Size</p>
         </div>
-        {fileData.map((data) => (
+        {files.map((data) => (
           <Column key={data.id} data={data} />
         ))}
       </div>

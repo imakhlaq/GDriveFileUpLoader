@@ -14,17 +14,19 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
 
 
 @RestController
+@RequestMapping("/api")
 class GDriveController @Autowired constructor(
     val gDriveUploadService: GDriveUploadService,
     val myFilesService: MyFilesService
 ) {
 
-    @PostMapping("/api/upload")
+    @PostMapping("/upload")
     fun uploadToGoogleDrive(
         @AuthenticationPrincipal userDetails: User,
         request: HttpServletRequest
@@ -34,15 +36,15 @@ class GDriveController @Autowired constructor(
     }
 
 
-    @GetMapping("/api/myfiles")
+    @GetMapping("/myfiles")
     fun getMyFiles(
         @AuthenticationPrincipal userDetails: User,
     ): ResponseEntity<List<StoredFiles>> {
 
-        return ResponseEntity.ok(myFilesService.getMyfiles(userDetails));
+        return ResponseEntity.ok(myFilesService.getMyFiles(userDetails));
     }
 
-    @PostMapping("/api/download")
+    @PostMapping("/download")
     fun downloadFile(
         @AuthenticationPrincipal userDetails: User,
         @RequestBody downFileDTO: DownFileDTO

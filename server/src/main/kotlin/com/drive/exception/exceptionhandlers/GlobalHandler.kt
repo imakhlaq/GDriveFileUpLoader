@@ -16,7 +16,7 @@ class GlobalHandler {
     fun handleCustom(e: FileNotFoundException): ResponseEntity<ErrorPOJO> {
 
         val error = ErrorPOJO(e.httpStatusCode, e.message, LocalDateTime.now());
-        return ResponseEntity.ok(error);
+        return ResponseEntity.status(e.httpStatusCode).body(error);
     }
 
 
@@ -25,7 +25,7 @@ class GlobalHandler {
 
         val error =
             ErrorPOJO(HttpStatus.INTERNAL_SERVER_ERROR, e.message, LocalDateTime.now());
-        return ResponseEntity.ok(error);
+        return ResponseEntity.status(e.httpStatusCode).body(error);
 
     }
 
@@ -34,7 +34,7 @@ class GlobalHandler {
 
         val error =
             ErrorPOJO(HttpStatus.INTERNAL_SERVER_ERROR, e.message ?: "Something went wrong", LocalDateTime.now());
-        return ResponseEntity.ok(error);
+        return ResponseEntity.status(500).body(error);
 
     }
 }
