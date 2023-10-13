@@ -28,6 +28,9 @@ export default function Upload({}: Props) {
 
   return (
     <>
+      {/* {picked && <p>{selectedFile?.name}</p>}
+        {picked && <p>{selectedFile?.size}</p>}*/}
+
       <form
         className="flex justify-center items-center  -mt-24  h-screen flex-col gap-8"
         onSubmit={submitHandler}
@@ -46,8 +49,6 @@ export default function Upload({}: Props) {
           Upload
         </button>
       </form>
-      {/* {picked && <p>{selectedFile?.name}</p>}
-        {picked && <p>{selectedFile?.size}</p>}*/}
     </>
   );
 }

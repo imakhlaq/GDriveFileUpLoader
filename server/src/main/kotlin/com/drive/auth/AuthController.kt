@@ -17,17 +17,11 @@ class AuthController @Autowired constructor(private val authService: AuthService
 
     @PostMapping("/signup")
     fun signup(@RequestBody userDTO: NewUserDTO): ResponseEntity<AuthRes> {
-        println("IN signup")
-
-        val data = authService.signup(userDTO);
-        println(data)
-
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(authService.signup(userDTO));
     }
 
     @PostMapping("/login")
     fun login(@RequestBody userDTO: UserDTO): ResponseEntity<AuthRes> {
-        println("IN login")
         return ResponseEntity.ok(this.authService.login(userDTO));
     }
 }
