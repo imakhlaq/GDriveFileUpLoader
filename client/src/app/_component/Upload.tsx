@@ -30,6 +30,8 @@ export default function Upload({}: Props) {
     <>
       {/* {picked && <p>{selectedFile?.name}</p>}
         {picked && <p>{selectedFile?.size}</p>}*/}
+      {/* {picked && <p>{selectedFile?.name}</p>}
+        {picked && <p>{selectedFile?.size}</p>}*/}
 
       <form
         className="flex justify-center items-center  -mt-24  h-screen flex-col gap-8"
