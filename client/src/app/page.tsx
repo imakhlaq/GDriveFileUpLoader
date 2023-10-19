@@ -16,6 +16,8 @@ async function getFileInfo() {
 export default async function Page({}: Props) {
   const files = await getFileInfo();
 
+  console.log(files)
+
   if (!files) return <NoFiles />;
 
   //fetch data
