@@ -1,6 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/hooks/useAuth";
+import {useRouter} from "next/navigation";
 
 type FormValues = {
   username: string;
@@ -17,6 +18,8 @@ export default function Page() {
   } = useForm<FormValues>();
   const authFun = useAuth();
 
+  const router =useRouter()
+
   const onSubmit = handleSubmit((data) => {
     authFun({
       type: "signup",
@@ -25,6 +28,7 @@ export default function Page() {
       .then((res) => {
         console.log(res);
         localStorage.setItem("gdriveToken", JSON.stringify(res.data));
+        router.push("/")
       })
       .catch((e) => {
         console.log(e);
@@ -41,7 +45,7 @@ export default function Page() {
 
   return (
     <section className="container relative mx-auto my-80 flex max-w-sm md:max-w-sm lg:max-w-md flex-col px-6 justify-center gap-16 bg-[#939196] py-10 rounded-md text-gray-950">
-      <h2 className="font-semibold text-3xl">Login</h2>
+      <h2 className="font-semibold text-3xl">Signup</h2>
       <form
         className="flex flex-col justify-center gap-4 text-lg font-semibold"
         onSubmit={onSubmit}

@@ -1,25 +1,26 @@
+"use client"
 import Table from "@/app/_component/Table";
 import { service } from "@/utils/service";
 import NoFiles from "@/app/_component/NoFiles";
+import {useEffect, useState} from "react";
 
-export const dynamic = "force-dynamic";
-type Props = {};
+export default  function Page() {
+const [files, setFiles] = useState<MyFile[]>([])
 
-async function getFileInfo() {
-  try {
-    return await service.get<MyFile[]>("/myfiles");
-  } catch (e) {
-    console.log(e);
-  }
-}
+  useEffect(() => {
+    async function getFiles(){
+      return await service.get<MyFile[]>("/myfile",{headers:{
+        Authorization:`Bearer ${(function (){ return localStorage.getItem("gdriveToken")})()}`
+        }});
+    }
 
-export default async function Page({}: Props) {
-  const files = await getFileInfo();
+    const data=getFiles().then(res=>setFiles(res.data)).catch(e=>console.log(e))
+  }, []);
 
   console.log(files)
 
-  if (!files) return <NoFiles />;
+  if (files.length===0) return <NoFiles />;
 
   //fetch data
-  return <Table files={files.data} />;
+  return <Table files={files} />;
 }

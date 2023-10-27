@@ -28,11 +28,12 @@ class AuthService @Autowired constructor(
 ) {
 
     fun signup(userDTO: NewUserDTO): AuthRes {
+        println("here")
         val isUsernameExit = userRepo.findAllByUsernameEquals(userDTO.username)
         if (isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Username already exits")
 
         val isEmailExit = userRepo.findAllByEmailEquals(userDTO.email)
-        if (isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Email already exits")
+        if (isEmailExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Email already exits")
 
         //encrypt
         val encryptPass = passwordEncoder.encode(userDTO.password)
