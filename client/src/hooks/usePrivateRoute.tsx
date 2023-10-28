@@ -7,6 +7,8 @@ export default function usePrivateRoute() {
 
   return function () {
     const isAuth = getAuth();
-    if (!isAuth) router.push("/login");
+    console.log(isAuth)
+
+    if (isAuth===null) router.push("/login");
   };
 }

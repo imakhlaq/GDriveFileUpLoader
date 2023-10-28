@@ -3,14 +3,20 @@ import Table from "@/app/_component/Table";
 import { service } from "@/utils/service";
 import NoFiles from "@/app/_component/NoFiles";
 import {useEffect, useState} from "react";
+import {getAuth} from "@/utils/isAuth";
 
 export default  function Page() {
 const [files, setFiles] = useState<MyFile[]>([])
 
   useEffect(() => {
     async function getFiles(){
+
+      const data= getAuth();
+
+      const token=data?.token;
+
       return await service.get<MyFile[]>("/myfile",{headers:{
-        Authorization:`Bearer ${(function (){ return localStorage.getItem("gdriveToken")})()}`
+        Authorization:`Bearer ${token}`
         }});
     }
 

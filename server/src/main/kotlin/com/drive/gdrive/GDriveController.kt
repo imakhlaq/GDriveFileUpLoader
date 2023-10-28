@@ -31,6 +31,7 @@ class GDriveController @Autowired constructor(
         @AuthenticationPrincipal userDetails: User,
         request: HttpServletRequest
     ): ResponseEntity<StoredFiles?> {
+        println("upload controller")
 
         return ResponseEntity.ok(gDriveUploadService.uploadToGoogleDrive(request, userDetails));
     }

@@ -35,6 +35,8 @@ class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val
         // Create a new file upload handler
         val upload = JakartaServletFileUpload();
 
+        println("in upload")
+
         // Parse the request
         val iter = upload.getItemIterator(request);
         while (iter.hasNext()) {

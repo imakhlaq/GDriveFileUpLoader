@@ -43,7 +43,8 @@ internal class SecurityConfig {
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers("/api/auth/**") //these are whitelist paths
-                    .permitAll().anyRequest()
+                    .permitAll()
+                    .anyRequest()
                     .authenticated()
             }//and rest are private need auth
             .sessionManagement { session ->

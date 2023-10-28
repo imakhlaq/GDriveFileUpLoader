@@ -15,15 +15,22 @@ export default function Upload({}: Props) {
     console.log(selectedFile);
   };
 
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData: any = new FormData();
     formData.append("file", selectedFile);
 
-    const res = await service.post("/upload", formData);
+try {
+  const res = await service.post("/upload", formData);
 
-    console.log(res);
+  console.log(res);
+}catch (err){
+  console.log(err)
+}
+
+
   };
 
   return (

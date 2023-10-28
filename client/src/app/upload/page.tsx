@@ -1,7 +1,11 @@
 "use client";
 import usePrivateRoute from "@/hooks/usePrivateRoute";
 import { useEffect } from "react";
-import Upload from "@/app/_component/Upload";
+import dynamic from "next/dynamic";
+const Upload = dynamic(
+    () => import('../_component/Upload'),
+    { ssr: false }
+)
 
 const Page = () => {
   const protectedFn = usePrivateRoute();

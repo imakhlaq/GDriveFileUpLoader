@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/hooks/useAuth";
+import {useRouter} from "next/navigation";
 
 type FormValues = {
   username: string;
@@ -19,10 +20,14 @@ export default function Page() {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const router=useRouter();
+
   const onSubmit = handleSubmit((data) => {
     authFun({ type: "login", data })
-      .then((authRes) =>
-        localStorage.setItem("gdriveToken", JSON.stringify(authRes.data)),
+      .then((authRes) => {
+            localStorage.setItem("gdriveToken", JSON.stringify(authRes.data));
+                router.replace("/")
+          }
       )
       .catch((e) => setError(true));
   });

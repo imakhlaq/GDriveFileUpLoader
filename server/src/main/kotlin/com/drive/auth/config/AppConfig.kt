@@ -1,6 +1,7 @@
 package com.drive.auth.config
 
 import com.drive.auth.repo.UserRepo
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class AppConfig @Autowired constructor(val userRepo: UserRepo) {
 
     @Bean
+    @Transactional
     fun userDetailsService(): UserDetailsService {
         return UserDetailsService { username ->
             userRepo.findAllByUsernameEquals(username).orElseThrow { UsernameNotFoundException("UserNot Found") }
