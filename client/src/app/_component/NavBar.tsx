@@ -1,17 +1,15 @@
 "use client";
 import Link from "next/link";
 import { getAuth } from "@/utils/isAuth";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NavBar = () => {
-
-  let isAuth = useRef<AuthRes | null>(null);
+  const [isAuth, setIsAuth] = useState<AuthRes | null>(null);
 
   useEffect(() => {
-    isAuth.current = getAuth();
+    setIsAuth(getAuth());
     console.log(isAuth);
   }, []);
-
 
   return (
     <header>
@@ -21,7 +19,7 @@ const NavBar = () => {
             <Link href="/">StoreIT</Link>
           </li>
           <div className="flex justify-center items-center gap-8 text-lg font-medium px-4 md:px-6 lg:px-20">
-            {!isAuth?.current?.username && (
+            {!isAuth?.username && (
               <>
                 <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/login">Login</Link>
@@ -31,7 +29,7 @@ const NavBar = () => {
                 </li>
               </>
             )}
-            {isAuth?.current?.username && (
+            {isAuth?.username && (
               <>
                 <li className="cursor-pointer hover:bg-[#CFCFCF] hover:text-black px-2.5 rounded-3xl">
                   <Link href="/upload">Upload</Link>

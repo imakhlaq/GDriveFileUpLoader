@@ -3,4 +3,10 @@ type AuthRes = {
   token: string;
 };
 
-type MyFile = { id: string; name: string; contentType: string; size: string };
+type MyFile = {
+  id: string;
+  fileName: string;
+  contentType: string;
+  url: string;
+  size: string;
+};

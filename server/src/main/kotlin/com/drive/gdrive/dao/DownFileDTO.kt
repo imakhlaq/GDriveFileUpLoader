@@ -1,3 +1,5 @@
 package com.drive.gdrive.dao
 
-data class DownFileDTO(val fileId: String)
+import java.util.UUID
+
+data class DownFileDTO(val id: UUID, val fileId: String)

@@ -1,5 +1,7 @@
 package com.drive.auth.config
 
+import com.drive.auth.model.Role
+import jakarta.servlet.DispatcherType
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -28,7 +30,6 @@ internal class SecurityConfig {
     var authenticationProvider: AuthenticationProvider? = null
 
     @Bean
-    @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { csrf -> csrf.disable() }
             .cors { cors ->
@@ -41,9 +42,11 @@ internal class SecurityConfig {
                 }
             }.formLogin { obj -> obj.disable() }
             .authorizeHttpRequests { auth ->
-                auth
+                auth.dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll()//for streamingResponseBody
                     .requestMatchers("/api/auth/**") //these are whitelist paths
                     .permitAll()
+                    .requestMatchers("/api/upload", "/api/myfiles", "/api/download")
+                    .hasAnyRole(Role.USER.name, Role.ADMIN.name)
                     .anyRequest()
                     .authenticated()
             }//and rest are private need auth

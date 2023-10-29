@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.security.Key
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -42,7 +43,7 @@ class JwtService {
         return Jwts.builder()
             .setSubject(userDetails.username)
             .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 24))
             .signWith(getSignInKey())
             .compact();
     }
@@ -52,7 +53,7 @@ class JwtService {
     fun isTokenValid(token: String, userDetails: UserDetails): Boolean {
 
         val userName = extractUserName(token);
-        return userName == userDetails.username && isTokenValid(token);
+        return userName.equals(userDetails.username) && isTokenValid(token);
 
     }
 
@@ -60,7 +61,7 @@ class JwtService {
 
         val allClaims = extractAllClaims(token);
         //extract expiration date and check
-        return allClaims.expiration.before(Date());
+        return !allClaims.expiration.before(Date());
     }
 
 }

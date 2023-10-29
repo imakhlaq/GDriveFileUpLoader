@@ -24,7 +24,6 @@ class JwtAuthFilter @Autowired constructor(val jwtService: JwtService, val userD
     ) {
 
         val token: String? = request.getHeader("Authorization")
-        println(token);
 
         val startWith = token?.startsWith("Bearer ")
 
@@ -41,7 +40,6 @@ class JwtAuthFilter @Autowired constructor(val jwtService: JwtService, val userD
             return;
 
         }
-
 
         val username = jwtService.extractUserName(jwtToken);
 

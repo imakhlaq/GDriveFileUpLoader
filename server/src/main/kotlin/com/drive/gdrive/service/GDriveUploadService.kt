@@ -19,7 +19,7 @@ class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val
 
 
     @Transactional
-    fun uploadToGoogleDrive(request: HttpServletRequest, userDetails: User): StoredFiles? {
+    fun uploadToGoogleDrive(request: HttpServletRequest, userDetails: User): Any? {
 
         //TODO implemet store in db
 
@@ -35,7 +35,6 @@ class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val
         // Create a new file upload handler
         val upload = JakartaServletFileUpload();
 
-        println("in upload")
 
         // Parse the request
         val iter = upload.getItemIterator(request);
@@ -57,10 +56,10 @@ class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val
                     item.contentType,
                     stream
                 );
-
                 val fileRes =
                     gDriveUtil.getInstance()?.files()?.create(fileMetadata, mediaContent)?.execute()
                 stream.close()
+
 
                 //TODO implemet store in db
 
@@ -69,11 +68,16 @@ class GDriveUploadService @Autowired constructor(val gDriveUtil: GDriveUtil, val
                     fileRes?.id,
                     item.contentType,
                     fileRes?.createdTime,
+                    fileRes?.getSize()?.div(1000) ?: 0,
                     userDetails
                 )
 
-                val fileInDB = storedFileRepo.save(file);
-                return fileInDB;
+                storedFileRepo.save(file);
+
+                return object {
+                    val filename = file.fileName;
+                    val message = "File successfully uploaded"
+                }
 
             } else {
                 stream.close();

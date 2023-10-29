@@ -2,6 +2,7 @@ package com.drive.gdrive
 
 import com.drive.auth.model.User
 import com.drive.gdrive.dao.DownFileDTO
+import com.drive.gdrive.repo.StoredFileRepo
 import com.drive.gdrive.service.GDriveUploadService
 import com.drive.gdrive.service.MyFilesService
 import com.drive.model.StoredFiles
@@ -23,15 +24,15 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 @RequestMapping("/api")
 class GDriveController @Autowired constructor(
     val gDriveUploadService: GDriveUploadService,
-    val myFilesService: MyFilesService
+    val myFilesService: MyFilesService,
+    val storedFileRepo: StoredFileRepo
 ) {
 
     @PostMapping("/upload")
     fun uploadToGoogleDrive(
         @AuthenticationPrincipal userDetails: User,
         request: HttpServletRequest
-    ): ResponseEntity<StoredFiles?> {
-        println("upload controller")
+    ): ResponseEntity<Any?> {
 
         return ResponseEntity.ok(gDriveUploadService.uploadToGoogleDrive(request, userDetails));
     }
@@ -51,8 +52,11 @@ class GDriveController @Autowired constructor(
         @RequestBody downFileDTO: DownFileDTO
     ): ResponseEntity<StreamingResponseBody> {
 
+        val fileInfo = storedFileRepo.findById(downFileDTO.id)
+        println(fileInfo.get().size)
+
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=generic_file_name.bin")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=${fileInfo.get().fileName}")
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(myFilesService.downloadFile(downFileDTO.fileId));
     }

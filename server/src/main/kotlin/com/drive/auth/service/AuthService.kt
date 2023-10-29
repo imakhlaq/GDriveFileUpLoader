@@ -4,7 +4,7 @@ import com.drive.auth.config.JwtService
 import com.drive.auth.dao.AuthRes
 import com.drive.auth.dao.NewUserDTO
 import com.drive.auth.dao.UserDTO
-import com.drive.auth.model.Roles
+import com.drive.auth.model.Role
 import com.drive.auth.model.User
 import com.drive.exception.customexceptions.NotAvailableException
 import com.drive.auth.repo.UserRepo
@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import kotlin.math.log
 
 @Service
 class AuthService @Autowired constructor(
@@ -28,7 +27,7 @@ class AuthService @Autowired constructor(
 ) {
 
     fun signup(userDTO: NewUserDTO): AuthRes {
-        println("here")
+        
         val isUsernameExit = userRepo.findAllByUsernameEquals(userDTO.username)
         if (isUsernameExit.isPresent) throw NotAvailableException(HttpStatus.CONFLICT, "Username already exits")
 
@@ -38,7 +37,7 @@ class AuthService @Autowired constructor(
         //encrypt
         val encryptPass = passwordEncoder.encode(userDTO.password)
 
-        val user = User(username = userDTO.username, email = userDTO.email, password = encryptPass, role = Roles.ADMIN)
+        val user = User(username = userDTO.username, email = userDTO.email, password = encryptPass, role = Role.ADMIN)
 
         val dbUser = userRepo.save(user);
         println(dbUser)

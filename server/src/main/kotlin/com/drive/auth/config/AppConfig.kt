@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 class AppConfig @Autowired constructor(val userRepo: UserRepo) {
 
     @Bean
-    @Transactional
     fun userDetailsService(): UserDetailsService {
         return UserDetailsService { username ->
             userRepo.findAllByUsernameEquals(username).orElseThrow { UsernameNotFoundException("UserNot Found") }

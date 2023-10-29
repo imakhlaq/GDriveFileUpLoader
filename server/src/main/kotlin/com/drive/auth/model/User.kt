@@ -1,15 +1,19 @@
 package com.drive.auth.model
 
 import com.drive.model.StoredFiles
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
+import lombok.Data
+import lombok.EqualsAndHashCode
+import lombok.ToString
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.UUID
 
 @Entity
+@Data
 @Table(name = "user_details")
-data class User(
+class User(
 
     @Column(unique = true)
     private val username: String,
@@ -20,10 +24,13 @@ data class User(
     private val password: String,
 
     @Enumerated(EnumType.STRING)
-    val role: Roles,
+    val role: Role,
 
     @Column(nullable = true)
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE], fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.REMOVE])
+    @JsonIgnoreProperties("files")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     val files: List<StoredFiles>? = null,
 
     @Id
@@ -33,7 +40,7 @@ data class User(
 
     ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority(role.name))
+        return role.getAuthorities();
     }
 
     override fun getPassword(): String {

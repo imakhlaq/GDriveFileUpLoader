@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
-import java.io.InputStream
+import java.io.OutputStream
 
 
 @Service
@@ -23,9 +23,12 @@ class MyFilesService @Autowired constructor(val storedFileRepo: StoredFileRepo, 
 
     fun downloadFile(fileId: String): StreamingResponseBody {
 
-        val file = gDriveUtil.getInstance()?.Files()?.get(fileId)?.executeAsInputStream();
+        val file = gDriveUtil.getInstance()?.Files()?.get(fileId)
+            ?.executeMediaAsInputStream();
 
-        return StreamingResponseBody { outputStream ->
+        println(file)
+
+        val stream = StreamingResponseBody { outputStream ->
             val buffer = ByteArray(1024)
             var bytesRead: Int = 0
             while (bytesRead != -1) {
@@ -35,6 +38,8 @@ class MyFilesService @Autowired constructor(val storedFileRepo: StoredFileRepo, 
             file?.close()
             outputStream.flush()
         }
+
+        return stream;
 
     }
 }
