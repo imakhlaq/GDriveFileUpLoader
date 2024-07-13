@@ -60,6 +60,4 @@ class GDriveController @Autowired constructor(
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(myFilesService.downloadFile(downFileDTO.fileId));
     }
-
-
 }
